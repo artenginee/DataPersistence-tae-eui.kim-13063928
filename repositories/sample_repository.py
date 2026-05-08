@@ -1,10 +1,10 @@
 from datetime import datetime
 from typing import List, Optional
 
-from src.database.db_manager import DatabaseManager
-from src.interfaces.i_sample_repository import ISampleRepository
-from src.models.sample import Sample
-from src.utils.exceptions import DatabaseError, NotFoundError
+from database.db_manager import DatabaseManager
+from interfaces.i_sample_repository import ISampleRepository
+from models.sample import Sample
+from utils.exceptions import DatabaseError, NotFoundError
 
 
 class SampleRepository(ISampleRepository):

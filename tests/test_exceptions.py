@@ -1,5 +1,5 @@
 import pytest
-from src.utils.exceptions import NotFoundError, ValidationError, DatabaseError
+from utils.exceptions import NotFoundError, ValidationError, DatabaseError
 
 
 class TestNotFoundError:

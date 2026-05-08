@@ -1,8 +1,8 @@
 import pytest
 
-from src.database.db_manager import DatabaseManager
-from src.repositories import SampleRepository, OrderRepository, ProductionJobRepository
-from src.models import Sample, Order
+from database.db_manager import DatabaseManager
+from repositories import SampleRepository, OrderRepository, ProductionJobRepository
+from models import Sample, Order
 
 
 @pytest.fixture

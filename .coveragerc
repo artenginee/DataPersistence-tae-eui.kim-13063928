@@ -1,5 +1,10 @@
 [run]
-source = src
+source =
+    models
+    interfaces
+    repositories
+    database
+    utils
 
 [report]
 exclude_lines =

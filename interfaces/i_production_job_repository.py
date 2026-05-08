@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import Dict, List, Optional
 
-from src.repositories.base_repository import BaseRepository
-from src.models.production_job import ProductionJob, JobStatus
+from repositories.base_repository import BaseRepository
+from models.production_job import ProductionJob, JobStatus
 
 
 class IProductionJobRepository(BaseRepository[ProductionJob]):

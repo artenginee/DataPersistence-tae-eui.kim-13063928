@@ -1,6 +1,6 @@
 import pytest
-from src.models import ProductionJob, JobStatus
-from src.utils.exceptions import DatabaseError, NotFoundError, ValidationError
+from models import ProductionJob, JobStatus
+from utils.exceptions import DatabaseError, NotFoundError, ValidationError
 
 
 def _job(order_id: int, sample_id: int, **kwargs) -> ProductionJob:

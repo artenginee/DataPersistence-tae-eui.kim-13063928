@@ -1,13 +1,10 @@
 """POC #2 — 데이터 영속성 (Data Persistence) CRUD 콘솔 데모"""
-import sys
 import os
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-from src.database.db_manager import DatabaseManager
-from src.repositories import SampleRepository, OrderRepository, ProductionJobRepository
-from src.models import Sample, Order, OrderStatus, ProductionJob, JobStatus
-from src.utils.exceptions import NotFoundError, ValidationError, DatabaseError
+from database.db_manager import DatabaseManager
+from repositories import SampleRepository, OrderRepository, ProductionJobRepository
+from models import Sample, Order, OrderStatus, ProductionJob, JobStatus
+from utils.exceptions import NotFoundError, ValidationError, DatabaseError
 
 
 # ── UI 헬퍼 ───────────────────────────────────────────────────────────────────

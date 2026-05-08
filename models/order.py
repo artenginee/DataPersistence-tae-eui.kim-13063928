@@ -26,7 +26,7 @@ class Order:
     sample_name: Optional[str] = field(default=None, compare=False, repr=False)
 
     def validate(self) -> None:
-        from src.utils.exceptions import ValidationError
+        from utils.exceptions import ValidationError
         if not self.customer_name.strip():
             raise ValidationError("customer_name 은 필수입니다.")
         if self.quantity <= 0:

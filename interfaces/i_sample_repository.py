@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import List
 
-from src.repositories.base_repository import BaseRepository
-from src.models.sample import Sample
+from repositories.base_repository import BaseRepository
+from models.sample import Sample
 
 
 class ISampleRepository(BaseRepository[Sample]):

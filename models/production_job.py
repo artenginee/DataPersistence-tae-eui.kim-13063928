@@ -29,7 +29,7 @@ class ProductionJob:
     sample_name: Optional[str] = field(default=None, compare=False, repr=False)
 
     def validate(self) -> None:
-        from src.utils.exceptions import ValidationError
+        from utils.exceptions import ValidationError
         if self.planned_quantity <= 0:
             raise ValidationError("planned_quantity 는 1 이상이어야 합니다.")
         if self.actual_quantity < 0:

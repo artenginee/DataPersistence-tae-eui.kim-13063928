@@ -1,6 +1,6 @@
 import pytest
-from src.models import Sample, Order, OrderStatus, ProductionJob, JobStatus
-from src.utils.exceptions import ValidationError
+from models import Sample, Order, OrderStatus, ProductionJob, JobStatus
+from utils.exceptions import ValidationError
 
 
 class TestSampleValidate:

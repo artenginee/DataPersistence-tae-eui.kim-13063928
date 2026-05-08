@@ -1,6 +1,6 @@
 import pytest
-from src.models import Order, OrderStatus
-from src.utils.exceptions import DatabaseError, NotFoundError, ValidationError
+from models import Order, OrderStatus
+from utils.exceptions import DatabaseError, NotFoundError, ValidationError
 
 
 class TestOrderRepositoryCreate:

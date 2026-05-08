@@ -1,10 +1,10 @@
 from datetime import datetime
 from typing import Dict, List, Optional
 
-from src.database.db_manager import DatabaseManager
-from src.interfaces.i_production_job_repository import IProductionJobRepository
-from src.models.production_job import ProductionJob, JobStatus
-from src.utils.exceptions import DatabaseError, NotFoundError
+from database.db_manager import DatabaseManager
+from interfaces.i_production_job_repository import IProductionJobRepository
+from models.production_job import ProductionJob, JobStatus
+from utils.exceptions import DatabaseError, NotFoundError
 
 
 class ProductionJobRepository(IProductionJobRepository):

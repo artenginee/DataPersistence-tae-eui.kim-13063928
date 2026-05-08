@@ -16,7 +16,7 @@ class Sample:
     updated_at: Optional[datetime] = None
 
     def validate(self) -> None:
-        from src.utils.exceptions import ValidationError
+        from utils.exceptions import ValidationError
         if not self.name.strip():
             raise ValidationError("name 은 필수입니다.")
         if self.avg_production_time <= 0:

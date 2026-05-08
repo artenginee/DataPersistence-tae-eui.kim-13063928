@@ -1,6 +1,6 @@
 import pytest
-from src.models import Sample
-from src.utils.exceptions import DatabaseError, NotFoundError, ValidationError
+from models import Sample
+from utils.exceptions import DatabaseError, NotFoundError, ValidationError
 
 
 class TestSampleRepositoryCreate:

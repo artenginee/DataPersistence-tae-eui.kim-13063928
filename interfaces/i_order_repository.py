@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import Dict, List
 
-from src.repositories.base_repository import BaseRepository
-from src.models.order import Order, OrderStatus
+from repositories.base_repository import BaseRepository
+from models.order import Order, OrderStatus
 
 
 class IOrderRepository(BaseRepository[Order]):
