@@ -57,31 +57,30 @@ DataPersistence/
 ├── .coveragerc                      # coverage 제외 규칙
 ├── requirements.txt                 # pytest, pytest-cov
 │
-├── src/
-│   ├── models/                      # 도메인 데이터 클래스
-│   │   ├── sample.py                  Sample
-│   │   ├── order.py                   Order, OrderStatus
-│   │   └── production_job.py          ProductionJob, JobStatus
-│   │
-│   ├── interfaces/                  # ★ merge 기준 계약 (ABC)
-│   │   ├── i_sample_repository.py     ISampleRepository
-│   │   ├── i_order_repository.py      IOrderRepository
-│   │   └── i_production_job_repository.py  IProductionJobRepository
-│   │
-│   ├── repositories/                # 인터페이스 SQLite 구현체
-│   │   ├── base_repository.py         BaseRepository[T] (공통 CRUD ABC)
-│   │   ├── sample_repository.py       SampleRepository
-│   │   ├── order_repository.py        OrderRepository
-│   │   └── production_job_repository.py  ProductionJobRepository
-│   │
-│   ├── database/
-│   │   └── db_manager.py              DatabaseManager (연결·스키마·헬퍼)
-│   │
-│   └── utils/
-│       └── exceptions.py              NotFoundError / ValidationError / DatabaseError
+├── models/                          # 도메인 데이터 클래스
+│   ├── sample.py                      Sample
+│   ├── order.py                       Order, OrderStatus
+│   └── production_job.py              ProductionJob, JobStatus
+│
+├── interfaces/                      # ★ merge 기준 계약 (ABC)
+│   ├── i_sample_repository.py         ISampleRepository
+│   ├── i_order_repository.py          IOrderRepository
+│   └── i_production_job_repository.py IProductionJobRepository
+│
+├── repositories/                    # 인터페이스 SQLite 구현체
+│   ├── base_repository.py             BaseRepository[T] (공통 CRUD ABC)
+│   ├── sample_repository.py           SampleRepository
+│   ├── order_repository.py            OrderRepository
+│   └── production_job_repository.py   ProductionJobRepository
+│
+├── database/
+│   └── db_manager.py                  DatabaseManager (연결 · 스키마 · 헬퍼)
+│
+├── utils/
+│   └── exceptions.py                  NotFoundError / ValidationError / DatabaseError
 │
 └── tests/
-    ├── conftest.py                  # 공통 픽스처 (db, sample_repo, order_repo, job_repo, …)
+    ├── conftest.py                    공통 픽스처 (db, sample_repo, order_repo, job_repo …)
     ├── test_exceptions.py
     ├── test_models.py
     ├── test_db_manager.py
@@ -96,13 +95,12 @@ DataPersistence/
 
 다른 POC와 합칠 때 **인터페이스에만 의존**하면 구현체를 교체해도 상위 레이어를 수정할 필요가 없습니다.
 
-```python
-# 인터페이스 계층 구조
-BaseRepository[T]                   ← 공통 CRUD (create / find_by_id / find_all / update / delete / count)
-    └── ISampleRepository           ← + find_by_name / update_stock
-    └── IOrderRepository            ← + find_by_status / find_by_sample / count_by_status / update_status
-    └── IProductionJobRepository    ← + find_by_status / find_waiting_queue / find_in_progress
-                                         find_by_order / count_by_status / update_status / update_actual_quantity
+```
+BaseRepository[T]
+    ├── ISampleRepository        + find_by_name / update_stock
+    ├── IOrderRepository         + find_by_status / find_by_sample / count_by_status / update_status
+    └── IProductionJobRepository + find_by_status / find_waiting_queue / find_in_progress
+                                   find_by_order / count_by_status / update_status / update_actual_quantity
 ```
 
 | 합칠 POC | 사용하는 인터페이스 |
@@ -112,12 +110,21 @@ BaseRepository[T]                   ← 공통 CRUD (create / find_by_id / find_
 | #4 Dummy 데이터 Tool | 동일 인터페이스 create 메서드 |
 
 ```python
-# 사용 예시 — Controller 가 인터페이스에만 의존
-from src.interfaces import ISampleRepository
+# Controller 가 인터페이스에만 의존하는 예시
+from interfaces.i_sample_repository import ISampleRepository
 
 class SampleController:
     def __init__(self, repo: ISampleRepository):   # 구현체 교체 자유
         self._repo = repo
+```
+
+### POC #1 merge 시 작업 목록
+
+```
+1. repositories/ database/ utils/ 를 POC #1 루트에 복사
+2. interfaces/ 의 repository 인터페이스 파일 3개를 POC #1 interfaces/ 에 추가
+3. 각 Controller 생성자에 Repository 주입
+4. main.py 에서 DatabaseManager → Repository → Controller 순으로 조립
 ```
 
 ---
@@ -125,7 +132,8 @@ class SampleController:
 ## 실행 방법
 
 ### 요구 사항
-- Python 3.10 이상 (외부 라이브러리 없음, 표준 `sqlite3` 사용)
+
+- Python 3.10 이상 (외부 라이브러리 없음 — 표준 `sqlite3` 사용)
 
 ### 콘솔 데모 실행
 
@@ -195,6 +203,7 @@ Required test coverage of 100% reached. Total coverage: 100.00%
 | 항목 | 선택 | 이유 |
 |------|------|------|
 | DB | SQLite | 외부 의존성 없이 로컬 실행 가능 |
+| 패키지 구조 | 루트 레벨 패키지 (`models/`, `interfaces/` …) | POC #1과 경로 통일 — merge 시 디렉토리 복사만으로 통합 가능 |
 | 패턴 | Repository Pattern | 인터페이스와 구현을 분리해 merge 시 상위 레이어 변경 최소화 |
 | 연결 관리 | `query()` / `query_one()` 헬퍼 | 읽기 연결 자동 close, 쓰기는 `with conn:` 트랜잭션 |
-| 비즈니스 로직 | 포함하지 않음 | POC 역할 분리 원칙 — 로직은 MVC Controller(POC #1) 에 위치 |
+| 비즈니스 로직 | 포함하지 않음 | POC 역할 분리 원칙 — 로직은 MVC Controller (POC #1) 에 위치 |
